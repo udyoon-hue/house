@@ -3,6 +3,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.getElementById('generate-btn');
     const bonusCheckbox = document.getElementById('bonus-checkbox');
     const lottoNumbersContainer = document.getElementById('lotto-numbers');
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+    // Toggle theme
+    themeToggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('theme', next);
+    });
 
     // Function to generate unique random numbers in a given range
     function generateUniqueNumbers(count, min, max) {
@@ -16,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to generate and display lotto numbers
     function generateAndDisplayLottoSets() {
-        lottoNumbersContainer.innerHTML = ''; // Clear previous numbers
+        lottoNumbersContainer.innerHTML = '';
         const includeBonus = bonusCheckbox.checked;
 
         for (let i = 0; i < 5; i++) {
